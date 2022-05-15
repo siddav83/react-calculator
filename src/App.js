@@ -3,8 +3,8 @@ const App = () => {
   return (
     <div className="calcultor-grid">
       <div className="output">
-        <div className="operand-before"></div>
-        <div className="operand-after"></div>
+        <div className="operand-before">4585607988</div>
+        <div className="operand-after">5869404860</div>
       </div>
       <button className="span-two">AC</button>
       <button>DEL</button>

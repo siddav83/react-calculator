@@ -6,3 +6,47 @@ body {
     margin: 0;
     background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
 }
+
+.calcultor-grid {
+    display: grid;
+    justify-content: center;
+    margin-top: 2rem;
+    grid-template-columns: repeat(4, 6rem);
+    grid-template-rows: minmax(7rem,auto) repeat(5, 6rem);
+}
+
+.span-two {
+    grid-column: span 2;
+}
+.output {
+    display:flex;
+    flex-direction: column;
+    grid-column: 1 / -1;
+    background-color: black;
+    align-items: flex-end;
+    padding: .75rem;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.calcultor-grid > button {
+    cursor: pointer;
+    font-size: 2rem;
+    border: 1px solid white;
+    background-color: rgba(255, 255, 255,  .75);;
+    outline: none;
+}
+
+.calcultor-grid > button:hover,
+.calcultor-grid > button:focus {
+    background-color: rgba(255, 255, 255,  .25) ;
+}
+.output .operand-before {
+    color: rgba(255, 255, 255,  .75);
+    font-size: 1.5rem;
+}
+
+.output .operand-after {
+    color: rgba(255, 255, 255,  .75);
+    font-size: 2.5rem;
+}
