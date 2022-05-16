@@ -1,10 +1,17 @@
+import {useReducer} from 'react';
 import "./styles.css"
+
+const reducer = (state, {type, payload }) => {
+
+};
+
 const App = () => {
+  const [{ currentOpperand,previousOperand,operation }, dispatch] = useReducer(reducer,{})
   return (
     <div className="calcultor-grid">
       <div className="output">
-        <div className="operand-before">4585607988</div>
-        <div className="operand-after">5869404860</div>
+        <div className="operand-current">{currentOpperand} {operation}</div>
+        <div className="operand-previous">{previousOperand}</div>
       </div>
       <button className="span-two">AC</button>
       <button>DEL</button>
