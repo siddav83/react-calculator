@@ -1,8 +1,22 @@
 import {useReducer} from 'react';
 import "./styles.css"
 
-const reducer = (state, {type, payload }) => {
+const ACTIONS = {
+  ADD_DIGIT: 'add-digit',
+  CHOOSE_OPERATION: 'choose-operation',
+  CLEAR: 'clear',
+  DELETE_DIGIT: 'delete-digit',
+  EVALUTE: 'evaluate'
+}
 
+const reducer = (state, {type, payload }) => {
+  switch (type) {
+    case ACTIONS.ADD_DIGIT:
+      return {
+        ...state,
+        currentOpperand: `${currentOpperand}${payload.digit}`
+      }
+  }
 };
 
 const App = () => {
