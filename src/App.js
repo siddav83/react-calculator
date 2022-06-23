@@ -12,15 +12,27 @@ export const ACTIONS = {
 }
 
 const reducer = (state, {type, payload }) => {
+  console.log(state)
+  console.log(type)
+  console.log(payload)
   switch (type) {
     case ACTIONS.ADD_DIGIT:
       if(payload.digit === "0" && state.currentOpperand === "0") return state
       if(payload.digit === "." && state.currentOpperand.includes(".")) return state
       return {
         ...state,
+        
         currentOpperand: `${state.currentOpperand || ""}${payload.digit}`,
       }
+    case ACTIONS.CLEAR:
+      return {}
+    case ACTIONS.CHOOSE_OPERATION:
+      if (state.currentOpperand == null && state.previousOperand == null) {
+        return state
+      }
   }
+  
+  
 };
 
 const App = () => {
@@ -35,7 +47,7 @@ const App = () => {
         <div className="operand-previous">{previousOperand} {operation}</div>
         <div className="operand-current">{currentOpperand}</div>
       </div>
-      <button className="span-two">AC</button>
+      <button className="span-two" onClick={()=> dispatch({type: ACTIONS.CLEAR})}>AC</button>
       <button>DEL</button>
       <OperationButton operation="/" dispatch={dispatch}/>
       <Digitbutton digit="1" dispatch={dispatch}/>
