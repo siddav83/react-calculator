@@ -17,6 +17,13 @@ const reducer = (state, {type, payload }) => {
   console.log(payload)
   switch (type) {
     case ACTIONS.ADD_DIGIT:
+      if(state.overwrite) {
+        return {
+          ...state,
+          currentOperand: payload.digit,
+          overwrite: false,
+        }
+      }
       if(payload.digit === "0" && state.currentOpperand === "0") return state
       if(payload.digit === "." && state.currentOpperand.includes(".")) return state
       return {
@@ -24,16 +31,70 @@ const reducer = (state, {type, payload }) => {
         
         currentOpperand: `${state.currentOpperand || ""}${payload.digit}`,
       }
+      case ACTIONS.CHOOSE_OPERATION:
+        if (state.currentOpperand == null && state.previousOperand == null) {
+          return state
+        }
+        if (state.previousOperand == null) {
+          return {...state,
+            operation: payload.operation,
+            previousOperand: state.currentOpperand,
+            currentOpperand: null
+          }
+        }
+          if (state.current == null) {
+            return {
+              ...state,
+              operation: payload.operation,
+            }
+          }
+        
+        return{
+          ...state,
+          previousOperand: evaluate(state),
+          operation:payload.operation,
+          currentOpperand: null,
+        }
+        
     case ACTIONS.CLEAR:
       return {}
-    case ACTIONS.CHOOSE_OPERATION:
-      if (state.currentOpperand == null && state.previousOperand == null) {
-        return state
+    
+    case ACTIONS.EVALUTE:
+      if(state.operation == null ||
+         state.currentOperand ==null ||
+         state.previousOperand== null) {
+           return state
+      }
+      return {
+        ...state,
+        overwrite: true,
+        previousOperand: null,
+        operaiton: null,
+        currentOperand: evaluate(state)
       }
   }
-  
-  
 };
+
+const evaluate = ({previousOperand, currentOpperand, operation}) => {
+  const previous = parseFloat(previousOperand)
+  const current = parseFloat(currentOpperand)
+  if (isNaN(previous) || isNaN(current)) return ""
+  let calculation = ""
+   switch (operation) {
+     case "+":
+      calculation = previous + current
+      break
+    case "-":
+      calculation = previous - current
+      break
+      case "/":
+        calculation = previous / current
+      break
+      case "*":
+        calculation = previous * current
+      break
+   }
+}
 
 const App = () => {
   const [{ currentOpperand,previousOperand,operation }, dispatch] = useReducer(
@@ -64,7 +125,7 @@ const App = () => {
       <OperationButton operation="-" dispatch={dispatch}/>
       <Digitbutton digit="0" dispatch={dispatch}/>
       <Digitbutton digit="." dispatch={dispatch}/>
-      <button className="span-two">=</button>
+      <button className="span-two" onClick={()=> dispatch({type: ACTIONS.EVALUTE})}>=</button>
     </div>
   );
 }
